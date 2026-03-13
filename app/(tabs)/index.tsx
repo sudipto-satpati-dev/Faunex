@@ -1,3 +1,4 @@
+import FeaturedInterests from "@/components/FeaturedInterests";
 import FilterChips from "@/components/FilterChips";
 import HomeTopBar from "@/components/HomeTopBar";
 import SearchBar from "@/components/SearchBar";
@@ -35,6 +36,14 @@ export default function HomeScreen() {
     console.log("Filter changed:", filter);
   };
 
+  const handleSeeAllInterests = () => {
+    console.log("See all interests pressed");
+  };
+
+  const handleAnimalPress = (animalId: string) => {
+    console.log("Animal pressed:", animalId);
+  };
+
   return (
     <View style={styles.container}>
       <HomeTopBar
@@ -59,6 +68,13 @@ export default function HomeScreen() {
           onVoicePress={handleVoicePress}
         />
         <FilterChips onFilterChange={handleFilterChange} />
+        {mockUser.interests && mockUser.interests.length > 0 && (
+          <FeaturedInterests
+            interests={mockUser.interests}
+            onSeeAll={handleSeeAllInterests}
+            onAnimalPress={handleAnimalPress}
+          />
+        )}
         {/* Home content will go here */}
       </ScrollView>
     </View>

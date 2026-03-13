@@ -5,6 +5,7 @@ export interface User {
   isReturningUser: boolean;
   hasNotifications: boolean;
   hasScannedAnimals: boolean;
+  interests?: string[];
   stats?: {
     scanned: number;
     favorited: number;
@@ -19,6 +20,7 @@ export const mockUser: User = {
   isReturningUser: false,
   hasNotifications: true,
   hasScannedAnimals: true, // Set to true to show stats banner
+  interests: ["Big Cats", "Ocean Life"],
   stats: {
     scanned: 34,
     favorited: 12,
