@@ -4,18 +4,18 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import {
-    Animated,
-    Dimensions,
-    FlatList,
-    Image,
-    ImageBackground,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Dimensions,
+  FlatList,
+  Image,
+  ImageBackground,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -106,7 +106,6 @@ function CollectionPage({ onRegister }: { onRegister: () => void }) {
             activeOpacity={0.9}
           >
             <Text style={styles.registerButtonText}>Register</Text>
-            <MaterialCommunityIcons name="arrow-right" size={24} color="#0a1a0d" />
           </TouchableOpacity>
 
           <View style={styles.loginContainer}>

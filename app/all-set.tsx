@@ -4,12 +4,12 @@ import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import {
-    Animated,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function AllSetScreen() {
@@ -35,7 +35,9 @@ export default function AllSetScreen() {
   }, []);
 
   const handleStartExploring = () => {
-    router.push('/(tabs)');
+    console.log('Start Exploring button clicked!');
+    console.log('Navigating to: /(tabs)');
+    router.replace('/(tabs)');
   };
 
   return (
@@ -108,7 +110,7 @@ export default function AllSetScreen() {
         </Animated.View>
 
         {/* Decorative elements */}
-        <View style={styles.decorativeElements}>
+        <View style={styles.decorativeElements} pointerEvents="none">
           <MaterialCommunityIcons
             name="paw"
             size={120}

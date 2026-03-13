@@ -17,6 +17,12 @@ export default function RootLayout() {
         <Stack.Screen name="register" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="verify-otp" options={{ headerShown: false }} />
+        <Stack.Screen name="setup-profile" options={{ headerShown: false }} />
+        <Stack.Screen name="choose-avatar" options={{ headerShown: false }} />
+        <Stack.Screen name="pick-interests" options={{ headerShown: false }} />
+        <Stack.Screen name="enable-location" options={{ headerShown: false }} />
+        <Stack.Screen name="enable-camera" options={{ headerShown: false }} />
+        <Stack.Screen name="all-set" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
