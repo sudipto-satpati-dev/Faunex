@@ -1,57 +1,58 @@
 import { COLORS } from '@/constants/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Camera } from 'expo-camera';
 import { Image } from 'expo-image';
+import * as Location from 'expo-location';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  Alert,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    Alert,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
-export default function EnableCameraScreen() {
+export default function EnableLocationScreen() {
   const router = useRouter();
   const [isRequesting, setIsRequesting] = useState(false);
 
-  const handleBack = () => {
-    router.back();
+  const handleClose = () => {
+    // Navigate to all set screen
+    router.push('/all-set');
   };
 
-  const handleAllowCamera = async () => {
+  const handleAllowLocation = async () => {
     try {
       setIsRequesting(true);
       
-      // Request camera permission
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      // Request location permission
+      const { status } = await Location.requestForegroundPermissionsAsync();
       
       if (status === 'granted') {
-        // Permission granted, navigate to location screen
-        router.push('/enable-location');
+        // Permission granted, navigate to all set screen
+        router.push('/all-set');
       } else {
         // Permission denied
         Alert.alert(
-          'Camera Permission Required',
-          'Camera access is needed to scan and identify animals. You can enable it later in your device settings.',
+          'Location Permission',
+          'Location access helps build your discovery map. You can enable it later in your device settings.',
           [
             { text: 'OK', style: 'default' }
           ]
         );
       }
     } catch (error) {
-      console.error('Error requesting camera permission:', error);
-      Alert.alert('Error', 'Failed to request camera permission. Please try again.');
+      console.error('Error requesting location permission:', error);
+      Alert.alert('Error', 'Failed to request location permission. Please try again.');
     } finally {
       setIsRequesting(false);
     }
   };
 
-  const handleMaybeLater = () => {
-    // Skip camera permission and navigate to location screen
-    router.push('/enable-location');
+  const handleSkip = () => {
+    // Skip location permission and navigate to all set screen
+    router.push('/all-set');
   };
 
   return (
@@ -60,32 +61,20 @@ export default function EnableCameraScreen() {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
 
-        {/* Background decorative icons */}
+        {/* Background watermark */}
         <View style={styles.watermarkContainer}>
           <MaterialCommunityIcons
             name="paw"
-            size={200}
+            size={640}
             color="white"
-            style={[styles.watermark, { top: 40, left: -40, transform: [{ rotate: '12deg' }] }]}
-          />
-          <MaterialCommunityIcons
-            name="leaf"
-            size={240}
-            color="white"
-            style={[styles.watermark, { bottom: 80, right: -60, transform: [{ rotate: '-12deg' }] }]}
-          />
-          <MaterialCommunityIcons
-            name="bird"
-            size={160}
-            color="white"
-            style={[styles.watermark, { top: '50%', left: '25%', opacity: 0.02 }]}
+            style={styles.watermark}
           />
         </View>
 
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <MaterialCommunityIcons name="arrow-left" size={24} color={COLORS.white} />
+          <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
+            <MaterialCommunityIcons name="close" size={28} color={COLORS.white} />
           </TouchableOpacity>
           <View style={{ flex: 1 }} />
           <Image
@@ -97,27 +86,41 @@ export default function EnableCameraScreen() {
 
         {/* Main Content */}
         <View style={styles.content}>
-          {/* Camera Icon with Animation */}
-          <View style={styles.cameraContainer}>
-            {/* Outer circle */}
-            <View style={styles.outerCircle}>
-              {/* Inner circle */}
-              <View style={styles.innerCircle}>
-                <MaterialCommunityIcons
-                  name="camera"
-                  size={80}
-                  color={COLORS.accent}
-                />
-              </View>
-            </View>
-          </View>
+          {/* Location Pin Icon */}
 
           {/* Text Content */}
           <View style={styles.textContent}>
-            <Text style={styles.title}>Power Up Your Faunex</Text>
+            <Text style={styles.title}>Know Where You Discovered It</Text>
             <Text style={styles.subtitle}>
-              Allow camera access to scan and identify animals in the wild. Start your journey as a wildlife explorer.
+              We'll log where you spotted each animal to build your discovery map.
             </Text>
+          </View>
+
+          {/* Map Preview */}
+          <View style={styles.mapContainer}>
+            <Image
+              source={require('@/assets/images/map.png')}
+              style={styles.mapImage}
+              contentFit="cover"
+            />
+            <View style={styles.mapOverlay} />
+            
+            {/* Decorative map pins */}
+            <View style={styles.mapPin1}>
+              <MaterialCommunityIcons
+                name="map-marker"
+                size={32}
+                color={COLORS.accent}
+              />
+            </View>
+            <View style={styles.mapPin2}>
+              <MaterialCommunityIcons
+                name="map-marker"
+                size={32}
+                color={COLORS.primary}
+                style={{ opacity: 0.6 }}
+              />
+            </View>
           </View>
         </View>
 
@@ -125,26 +128,23 @@ export default function EnableCameraScreen() {
         <View style={styles.bottomSection}>
           <TouchableOpacity
             style={[styles.allowButton, isRequesting && styles.allowButtonDisabled]}
-            onPress={handleAllowCamera}
+            onPress={handleAllowLocation}
             activeOpacity={0.9}
             disabled={isRequesting}
           >
             <Text style={styles.allowButtonText}>
-              {isRequesting ? 'Requesting...' : 'Allow Camera Access'}
+              {isRequesting ? 'Requesting...' : 'Allow Location'}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.laterButton}
-            onPress={handleMaybeLater}
+            style={styles.skipButton}
+            onPress={handleSkip}
             activeOpacity={0.8}
           >
-            <Text style={styles.laterButtonText}>Maybe Later</Text>
+            <Text style={styles.skipButtonText}>Skip for Now</Text>
           </TouchableOpacity>
         </View>
-
-        {/* Bottom gradient */}
-        <View style={styles.bottomGradient} />
       </View>
     </>
   );
@@ -157,22 +157,23 @@ const styles = StyleSheet.create({
   },
   watermarkContainer: {
     ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
     zIndex: 0,
   },
   watermark: {
-    position: 'absolute',
     opacity: 0.03,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
     paddingTop: 50,
     paddingBottom: 20,
     zIndex: 10,
   },
-  backButton: {
+  closeButton: {
     width: 40,
     height: 40,
     justifyContent: 'center',
@@ -189,34 +190,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     zIndex: 10,
   },
-  cameraContainer: {
+  iconContainer: {
     marginBottom: 48,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  outerCircle: {
-    width: 192,
-    height: 192,
-    borderRadius: 96,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 191, 0, 0.3)',
-    backgroundColor: 'rgba(16, 34, 19, 0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  innerCircle: {
-    width: 144,
-    height: 144,
-    borderRadius: 72,
+  iconCircle: {
+    width: 128,
+    height: 128,
+    borderRadius: 64,
     backgroundColor: 'rgba(255, 191, 0, 0.1)',
     borderWidth: 1,
-    borderColor: 'rgba(255, 191, 0, 0.4)',
+    borderColor: 'rgba(255, 191, 0, 0.3)',
     alignItems: 'center',
     justifyContent: 'center',
   },
   textContent: {
     maxWidth: 400,
     alignItems: 'center',
+    marginBottom: 48,
   },
   title: {
     fontSize: 36,
@@ -231,6 +223,34 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     textAlign: 'center',
     lineHeight: 28,
+  },
+  mapContainer: {
+    width: 320,
+    height: 320,
+    borderRadius: 16,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 191, 0, 0.2)',
+    position: 'relative',
+  },
+  mapImage: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.6,
+  },
+  mapOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(16, 34, 19, 0.4)',
+  },
+  mapPin1: {
+    position: 'absolute',
+    top: '25%',
+    left: '33%',
+  },
+  mapPin2: {
+    position: 'absolute',
+    bottom: '33%',
+    right: '25%',
   },
   bottomSection: {
     paddingHorizontal: 24,
@@ -258,23 +278,14 @@ const styles = StyleSheet.create({
   allowButtonDisabled: {
     opacity: 0.6,
   },
-  laterButton: {
+  skipButton: {
     width: '100%',
     paddingVertical: 18,
     alignItems: 'center',
   },
-  laterButtonText: {
+  skipButtonText: {
     fontSize: 16,
     fontWeight: '500',
     color: COLORS.textMuted,
-  },
-  bottomGradient: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 128,
-    backgroundColor: 'transparent',
-    opacity: 0.5,
   },
 });
