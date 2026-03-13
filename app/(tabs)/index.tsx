@@ -5,6 +5,7 @@ import FilterChips from "@/components/FilterChips";
 import HomeTopBar from "@/components/HomeTopBar";
 import SearchBar from "@/components/SearchBar";
 import StatsBanner from "@/components/StatsBanner";
+import StreakReward from "@/components/StreakReward";
 import WelcomeBanner from "@/components/WelcomeBanner";
 import { COLORS } from "@/constants/colors";
 import { getFactOfTheDay } from "@/data/animalFacts";
@@ -56,6 +57,10 @@ export default function HomeScreen() {
     console.log("See all continue exploring pressed");
   };
 
+  const handleClaimReward = () => {
+    console.log("Claim daily reward pressed");
+  };
+
   return (
     <View style={styles.container}>
       <HomeTopBar
@@ -91,6 +96,12 @@ export default function HomeScreen() {
           <ContinueExploring
             onSeeAll={handleSeeAllContinue}
             onAnimalPress={handleContinueExploringPress}
+          />
+        )}
+        {mockUser.streak && mockUser.streak >= 7 && (
+          <StreakReward
+            streakDays={mockUser.streak}
+            onClaimReward={handleClaimReward}
           />
         )}
         <DidYouKnow

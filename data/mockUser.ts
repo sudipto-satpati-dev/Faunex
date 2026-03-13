@@ -6,6 +6,7 @@ export interface User {
   hasNotifications: boolean;
   hasScannedAnimals: boolean;
   interests?: string[];
+  streak?: number; // Number of consecutive days
   stats?: {
     scanned: number;
     favorited: number;
@@ -21,6 +22,7 @@ export const mockUser: User = {
   hasNotifications: true,
   hasScannedAnimals: true, // Set to true to show stats banner
   interests: ["Big Cats", "Ocean Life"],
+  streak: 7, // 7 day streak
   stats: {
     scanned: 34,
     favorited: 12,
