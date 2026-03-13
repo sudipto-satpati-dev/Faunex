@@ -1,27 +1,19 @@
+import { COLORS } from '@/constants/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
-    Dimensions,
-    Pressable,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
-
-const COLORS = {
-  background: '#061405',
-  primary: '#0fe633',
-  buttonYellow: '#FFBF00',
-  textWhite: '#FFFFFF',
-  textMuted: '#94a3b8',
-  iconDark: 'rgba(255, 255, 255, 0.04)',
-};
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -32,8 +24,8 @@ export default function WelcomeScreen() {
   };
 
   const handleSignIn = () => {
-    // Navigate to sign in screen
-    router.push('/(tabs)');
+    // Navigate to login screen
+    router.push('/login');
   };
 
   return (
@@ -128,7 +120,7 @@ function BackgroundIcons() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: '#061405',
   },
   content: {
     flex: 1,
@@ -148,12 +140,12 @@ const styles = StyleSheet.create({
   appName: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: COLORS.textWhite,
+    color: COLORS.white,
     letterSpacing: 2,
   },
   tagline: {
     fontSize: 16,
-    color: COLORS.textMuted,
+    color: '#94a3b8',
     textAlign: 'center',
     letterSpacing: 0.5,
   },
@@ -164,7 +156,7 @@ const styles = StyleSheet.create({
   },
   getStartedButton: {
     width: '100%',
-    backgroundColor: COLORS.buttonYellow,
+    backgroundColor: COLORS.accent,
     paddingVertical: 18,
     borderRadius: 12,
     alignItems: 'center',
@@ -180,7 +172,7 @@ const styles = StyleSheet.create({
   },
   signInText: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: '#94a3b8',
     letterSpacing: 0.3,
   },
   bgIcon: {

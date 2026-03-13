@@ -1,3 +1,4 @@
+import { COLORS } from '@/constants/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -18,13 +19,6 @@ import {
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
-
-const COLORS = {
-  primary: '#0fe633',
-  background: '#102213',
-  white: '#FFFFFF',
-  textLight: '#e2e8f0',
-};
 
 const ONBOARDING_DATA = [
   {
@@ -117,7 +111,7 @@ function CollectionPage({ onRegister }: { onRegister: () => void }) {
 
           <View style={styles.loginContainer}>
             <Text style={styles.loginText}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => router.push('/(tabs)')}>
+            <TouchableOpacity onPress={() => router.push('/login')}>
               <Text style={styles.loginLink}>Log in</Text>
             </TouchableOpacity>
           </View>
@@ -166,7 +160,7 @@ export default function OnboardingScreen() {
   };
 
   const handleRegister = () => {
-    router.push('/(tabs)'); // Will change to register screen later
+    router.push('/register');
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -394,7 +388,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 18,
-    color: COLORS.textLight,
+    color: '#e2e8f0',
     textAlign: 'center',
     maxWidth: 340,
     lineHeight: 28,
@@ -512,7 +506,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   registerButton: {
-    backgroundColor: '#FFBF00',
+    backgroundColor: COLORS.accent,
     paddingVertical: 18,
     paddingHorizontal: 32,
     borderRadius: 12,
