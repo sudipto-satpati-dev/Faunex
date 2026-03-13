@@ -1,3 +1,5 @@
+import ContinueExploring from "@/components/ContinueExploring";
+import DidYouKnow from "@/components/DidYouKnow";
 import FeaturedInterests from "@/components/FeaturedInterests";
 import FilterChips from "@/components/FilterChips";
 import HomeTopBar from "@/components/HomeTopBar";
@@ -5,12 +7,14 @@ import SearchBar from "@/components/SearchBar";
 import StatsBanner from "@/components/StatsBanner";
 import WelcomeBanner from "@/components/WelcomeBanner";
 import { COLORS } from "@/constants/colors";
+import { getFactOfTheDay } from "@/data/animalFacts";
 import { mockUser } from "@/data/mockUser";
 import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const factOfTheDay = getFactOfTheDay();
 
   const handleNotificationPress = () => {
     console.log("Notification pressed");
@@ -44,6 +48,14 @@ export default function HomeScreen() {
     console.log("Animal pressed:", animalId);
   };
 
+  const handleContinueExploringPress = (animalId: string) => {
+    console.log("Continue exploring animal pressed:", animalId);
+  };
+
+  const handleSeeAllContinue = () => {
+    console.log("See all continue exploring pressed");
+  };
+
   return (
     <View style={styles.container}>
       <HomeTopBar
@@ -75,6 +87,16 @@ export default function HomeScreen() {
             onAnimalPress={handleAnimalPress}
           />
         )}
+        {mockUser.hasScannedAnimals && (
+          <ContinueExploring
+            onSeeAll={handleSeeAllContinue}
+            onAnimalPress={handleContinueExploringPress}
+          />
+        )}
+        <DidYouKnow
+          fact={factOfTheDay.fact}
+          highlight={factOfTheDay.highlight}
+        />
         {/* Home content will go here */}
       </ScrollView>
     </View>
