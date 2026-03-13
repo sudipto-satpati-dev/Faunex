@@ -1,4 +1,5 @@
 import HomeTopBar from "@/components/HomeTopBar";
+import SearchBar from "@/components/SearchBar";
 import StatsBanner from "@/components/StatsBanner";
 import WelcomeBanner from "@/components/WelcomeBanner";
 import { COLORS } from "@/constants/colors";
@@ -15,6 +16,18 @@ export default function HomeScreen() {
 
   const handleScanPress = () => {
     router.push("/(tabs)/camera");
+  };
+
+  const handleSearch = (text: string) => {
+    console.log("Search:", text);
+  };
+
+  const handleCameraPress = () => {
+    router.push("/(tabs)/camera");
+  };
+
+  const handleVoicePress = () => {
+    console.log("Voice search pressed");
   };
 
   return (
@@ -35,6 +48,11 @@ export default function HomeScreen() {
             />
           )
         )}
+        <SearchBar
+          onChangeText={handleSearch}
+          onCameraPress={handleCameraPress}
+          onVoicePress={handleVoicePress}
+        />
         {/* Home content will go here */}
       </ScrollView>
     </View>

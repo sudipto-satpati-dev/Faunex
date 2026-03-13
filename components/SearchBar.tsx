@@ -21,7 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <Ionicons
           name="search"
           size={24}
-          color="#0fe633"
+          color="#FFBF00"
           style={styles.searchIcon}
         />
         <TextInput
