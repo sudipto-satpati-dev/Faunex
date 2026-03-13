@@ -15,8 +15,8 @@ export default function SetupProfileScreen() {
   const router = useRouter();
 
   const handleLetsGo = () => {
-    // Navigate to main app
-    router.push('/(tabs)');
+    // Navigate to choose avatar screen
+    router.push('/choose-avatar');
   };
 
   return (
