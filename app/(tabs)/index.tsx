@@ -1,3 +1,4 @@
+import FilterChips from "@/components/FilterChips";
 import HomeTopBar from "@/components/HomeTopBar";
 import SearchBar from "@/components/SearchBar";
 import StatsBanner from "@/components/StatsBanner";
@@ -30,6 +31,10 @@ export default function HomeScreen() {
     console.log("Voice search pressed");
   };
 
+  const handleFilterChange = (filter: string) => {
+    console.log("Filter changed:", filter);
+  };
+
   return (
     <View style={styles.container}>
       <HomeTopBar
@@ -53,6 +58,7 @@ export default function HomeScreen() {
           onCameraPress={handleCameraPress}
           onVoicePress={handleVoicePress}
         />
+        <FilterChips onFilterChange={handleFilterChange} />
         {/* Home content will go here */}
       </ScrollView>
     </View>
