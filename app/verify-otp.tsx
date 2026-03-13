@@ -18,6 +18,7 @@ export default function VerifyOTPScreen() {
   const router = useRouter();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(180); // 3 minutes in seconds
+  const [isError, setIsError] = useState(false);
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
   useEffect(() => {
@@ -41,6 +42,11 @@ export default function VerifyOTPScreen() {
   const handleOtpChange = (value: string, index: number) => {
     if (value.length > 1) return; // Only allow single digit
 
+    // Clear error state when user starts typing
+    if (isError) {
+      setIsError(false);
+    }
+
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
@@ -60,17 +66,19 @@ export default function VerifyOTPScreen() {
   const handleVerify = () => {
     const enteredOtp = otp.join('');
     if (enteredOtp === CORRECT_OTP) {
-      // OTP is correct, navigate to main app
-      router.push('/(tabs)');
+      // OTP is correct, navigate to setup profile
+      setIsError(false);
+      router.push('/setup-profile');
     } else {
-      // Show error (you can add error state here)
-      alert('Incorrect OTP. Please try again.');
+      // Show error state
+      setIsError(true);
     }
   };
 
   const handleResend = () => {
     setTimer(180);
     setOtp(['', '', '', '', '', '']);
+    setIsError(false);
     inputRefs.current[0]?.focus();
   };
 
@@ -127,7 +135,8 @@ export default function VerifyOTPScreen() {
               }}
               style={[
                 styles.otpInput,
-                digit && styles.otpInputFilled,
+                digit && !isError && styles.otpInputFilled,
+                isError && styles.otpInputError,
               ]}
               value={digit}
               onChangeText={(value) => handleOtpChange(value, index)}
@@ -138,6 +147,14 @@ export default function VerifyOTPScreen() {
             />
           ))}
         </View>
+
+        {/* Error Message */}
+        {isError && (
+          <View style={styles.errorContainer}>
+            <MaterialCommunityIcons name="alert-circle" size={20} color="#ef4444" />
+            <Text style={styles.errorText}>Incorrect code. Try again.</Text>
+          </View>
+        )}
 
         {/* Timer */}
         <Text style={styles.timer}>Code expires in {formatTime(timer)}</Text>
@@ -245,6 +262,21 @@ const styles = StyleSheet.create({
   },
   otpInputFilled: {
     borderColor: COLORS.accent,
+  },
+  otpInputError: {
+    borderColor: '#ef4444',
+    color: '#ef4444',
+  },
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 16,
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#ef4444',
+    fontWeight: '500',
   },
   timer: {
     fontSize: 14,
