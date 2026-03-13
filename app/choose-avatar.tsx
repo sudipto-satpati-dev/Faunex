@@ -3,13 +3,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 const AVATARS = [
@@ -27,7 +27,7 @@ const AVATARS = [
   { id: 'bug', icon: 'ladybug', label: 'BUG' },
   { id: 'rock', icon: 'diamond-stone', label: 'ROCK' },
   { id: 'ghost', icon: 'ghost', label: 'GHOST' },
-  { id: 'dragon', icon: 'dragon', label: 'DRAGON' },
+  { id: 'dragon', icon: 'chess-king', label: 'DRAGON' },
   { id: 'dark', icon: 'moon-waning-crescent', label: 'DARK' },
   { id: 'steel', icon: 'shield', label: 'STEEL' },
   { id: 'fairy', icon: 'star-four-points', label: 'FAIRY' },
