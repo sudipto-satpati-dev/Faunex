@@ -20,7 +20,7 @@ export const mockUser: User = {
   avatar: "🦅", // Eagle emoji as avatar
   isReturningUser: false,
   hasNotifications: true,
-  hasScannedAnimals: true, // Set to true to show stats banner
+  hasScannedAnimals: false, // Set to true to show stats banner
   interests: ["Big Cats", "Ocean Life"],
   streak: 7, // 7 day streak
   stats: {

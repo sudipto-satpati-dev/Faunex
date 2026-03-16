@@ -1,8 +1,11 @@
+import AnimalLibrary, { AnimalLibraryRef } from "@/components/AnimalLibrary";
 import ContinueExploring from "@/components/ContinueExploring";
 import DidYouKnow from "@/components/DidYouKnow";
 import FeaturedInterests from "@/components/FeaturedInterests";
 import FilterChips from "@/components/FilterChips";
 import HomeTopBar from "@/components/HomeTopBar";
+import NewThisWeek from "@/components/NewThisWeek";
+import RareEndangered from "@/components/RareEndangered";
 import SearchBar from "@/components/SearchBar";
 import StatsBanner from "@/components/StatsBanner";
 import StreakReward from "@/components/StreakReward";
@@ -11,11 +14,13 @@ import { COLORS } from "@/constants/colors";
 import { getFactOfTheDay } from "@/data/animalFacts";
 import { mockUser } from "@/data/mockUser";
 import { useRouter } from "expo-router";
+import { useRef } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter();
   const factOfTheDay = getFactOfTheDay();
+  const animalLibraryRef = useRef<AnimalLibraryRef>(null);
 
   const handleNotificationPress = () => {
     console.log("Notification pressed");
@@ -61,13 +66,48 @@ export default function HomeScreen() {
     console.log("Claim daily reward pressed");
   };
 
+  const handleNewAnimalPress = (animalId: string) => {
+    console.log("New animal pressed:", animalId);
+  };
+
+  const handleHowToHelp = () => {
+    console.log("How to help pressed");
+  };
+
+  const handleLibraryAnimalPress = (animalId: string) => {
+    console.log("Library animal pressed:", animalId);
+  };
+
+  const handleFilterPress = () => {
+    console.log("Filter pressed");
+  };
+
+  const handleScroll = (event: any) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    const paddingToBottom = 200; // Increased threshold
+
+    // Check if we're near the bottom
+    const isCloseToBottom =
+      contentOffset.y + layoutMeasurement.height >=
+      contentSize.height - paddingToBottom;
+
+    if (isCloseToBottom) {
+      animalLibraryRef.current?.loadMore();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <HomeTopBar
         user={mockUser}
         onNotificationPress={handleNotificationPress}
       />
-      <ScrollView style={styles.content}>
+      <ScrollView
+        style={styles.content}
+        onScroll={handleScroll}
+        onMomentumScrollEnd={handleScroll}
+        scrollEventThrottle={16}
+      >
         {!mockUser.hasScannedAnimals ? (
           <WelcomeBanner onScanPress={handleScanPress} />
         ) : (
@@ -108,7 +148,13 @@ export default function HomeScreen() {
           fact={factOfTheDay.fact}
           highlight={factOfTheDay.highlight}
         />
-        {/* Home content will go here */}
+        <NewThisWeek onAnimalPress={handleNewAnimalPress} />
+        <RareEndangered onHowToHelp={handleHowToHelp} />
+        <AnimalLibrary
+          ref={animalLibraryRef}
+          onAnimalPress={handleLibraryAnimalPress}
+          onFilterPress={handleFilterPress}
+        />
       </ScrollView>
     </View>
   );
